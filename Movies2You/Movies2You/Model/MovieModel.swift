@@ -20,6 +20,11 @@ struct Movie: Codable {
     var views: Double // popularity
     var backdropImagePath: String
     var backdropImageURL: String {
+        // turn the poster path into the proper image URL
+        String("https://image.tmdb.org/t/p/w500" + self.backdropImagePath)
+    }
+    var posterImagePath: String
+    var posterImageURL: String {
         // turn the backdrop path into the proper image URL
         String("https://image.tmdb.org/t/p/w500" + self.backdropImagePath)
     }
@@ -33,6 +38,7 @@ struct Movie: Codable {
         case likes = "vote_count"
         case views = "popularity"
         case backdropImagePath = "backdrop_path"
+        case posterImagePath = "poster_path"
     }
 }
 
@@ -44,5 +50,14 @@ struct Genrer: Codable {
     enum CodingKeys: String, CodingKey {
             case id
             case name
+    }
+}
+
+struct RelatedMovies: Codable {
+    var results: Array<Movie>
+    
+    // bind API properties to RelatedMovies properties
+    enum CodingKeys: String, CodingKey {
+        case results
     }
 }

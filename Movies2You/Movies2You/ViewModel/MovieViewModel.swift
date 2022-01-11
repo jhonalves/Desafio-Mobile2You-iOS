@@ -15,7 +15,7 @@ class MovieViewModel {
     }
     
     func getMovie() {
-        MovieAPI.fetchMovie { (fetchedInfo) in
+        MovieAPI.fetchMovie(movieID: 27205) { (fetchedInfo) in
             print(fetchedInfo ?? "fails")
         }
         
