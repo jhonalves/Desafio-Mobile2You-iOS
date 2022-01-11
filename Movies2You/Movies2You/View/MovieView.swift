@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MovieView: View {
+    var movie: MovieViewModel
+    
     var body: some View {
         Text("Hello, world!")
             .padding()
@@ -16,6 +18,8 @@ struct MovieView: View {
 
 struct MovieView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieView()
+        let movie = MovieViewModel()
+        
+        MovieView(movie: movie)
     }
 }
