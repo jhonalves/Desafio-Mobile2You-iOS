@@ -17,12 +17,13 @@ class MovieViewModel: ObservableObject {
     }
     
     // gets a movie from the MovieAPI and stores in the movie variable
-    func getMovie(movieID: Int) {
+    func getMovie(movieID: Int = MovieConstants.movieID) {
         self.movieAPI.fetchMovie(movieID: movieID) { (fetchedMovie) in
-            // saves fetched movie if success or nil if fails
-            self.movie = fetchedMovie
-            // if success, gets related movies
-            if fetchedMovie != nil {
+            DispatchQueue.main.async {
+                // saves fetched movie if success or nil if fails
+                self.movie = fetchedMovie
+                // if success, gets related movies
+                self.getRelatedMovies(movieID: movieID, modifier: MovieConstants.relatedMoviesModifier)
                 self.getRelatedMovies(movieID: movieID, modifier: MovieConstants.relatedMoviesModifier)
             }
         }
@@ -32,8 +33,14 @@ class MovieViewModel: ObservableObject {
     func addRelatedMovie(movieID: Int) {
         self.movieAPI.fetchMovie(movieID: movieID) { (fetchedRelatedMovie) in
             // if success appends to the movie variable
-            if let relatedMovie = fetchedRelatedMovie {
-                self.movie?.relatedMovies.append(relatedMovie)
+            DispatchQueue.main.async {
+                if let relatedMovie = fetchedRelatedMovie {
+                    // checks if the movies was already added to the relatedMovies list
+                    if (self.movie?.relatedMovies.first { $0.id == relatedMovie.id } == nil) {
+                        // adds the related movie to the list
+                        self.movie?.relatedMovies.append(relatedMovie)
+                    }
+                }
             }
         }
     }
@@ -41,11 +48,13 @@ class MovieViewModel: ObservableObject {
     // gets related movies ids array
     func getRelatedMovies(movieID: Int, modifier: String) {
         self.movieAPI.fetchRelatedMovies(movieID: movieID, modifier: modifier) { (fetchedRelatedMovies) in
-            if let list = fetchedRelatedMovies?.relatedMoviesIDs {
-                // for each movie id calls the addRelatedMovie function to
-                // append its movie data to the movie.relatedMovies array
-                for id in list {
-                    self.addRelatedMovie(movieID: id)
+            DispatchQueue.main.async {
+                if let list = fetchedRelatedMovies?.relatedMoviesIDs {
+                    // for each movie id calls the addRelatedMovie function to
+                    // append its movie data to the movie.relatedMovies array
+                    for id in list {
+                        self.addRelatedMovie(movieID: id)
+                    }
                 }
             }
         }
