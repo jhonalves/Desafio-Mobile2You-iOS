@@ -11,7 +11,7 @@ import Foundation
 class MovieAPI {
     
     // get the movie data, stores in a Movie model and returns it
-    static func fetchMovie(movieID: Int, completion: @escaping (Movie?) -> Void ) {
+    func fetchMovie(movieID: Int, completion: @escaping (Movie?) -> Void ) {
         // pass the movieID to get the formatted URL to make the request
         let url = formatURL(movieID: movieID)
         
@@ -32,7 +32,7 @@ class MovieAPI {
     }
     
     // get the related movie data, stores in a Movie model array and returns it
-    static func fetchRelatedMovies(movieID: Int, modifier: String, completion: @escaping (Array<Movie>?) -> Void ) {
+    func fetchRelatedMovies(movieID: Int, modifier: String, completion: @escaping (RelatedMovies?) -> Void ) {
         // pass the movieID and modifier to get the formatted URL to make the request
         let url = formatURL(movieID: movieID, modifier: modifier)
         
@@ -43,7 +43,7 @@ class MovieAPI {
             // try to decode de movie data into a RelatedMovies model
             if let relatedMoviesData = data, let relatedMovies = try? jsonDecoder.decode(RelatedMovies.self, from: relatedMoviesData) {
                 // returns Array of Movie model if success
-                completion(relatedMovies.results)
+                completion(relatedMovies)
             } else {
                 // returns nil if fails
                 completion(nil)
@@ -56,9 +56,9 @@ class MovieAPI {
     // modifier will be added after the movie id
     // it must be nil if there's no modifier
     // or "/modifier" if there's one
-    static func formatURL(movieID: Int, modifier: String? = nil) -> URL {
+    func formatURL(movieID: Int, modifier: String? = nil) -> URL {
         // base API request url
-        let baseURL = "https://api.themoviedb.org/3/movie/"
+        let baseURL = apiConstants.apiBaseURL
         
         // creates the url with movie id
         var movieURL: URL!
@@ -73,13 +73,20 @@ class MovieAPI {
         let queries: [String: String] = [
             // gets a String with de API key
             // the function is in a separeted file in the Helpers folder that's not uploaded with the project
-            "api_key": GetAPIKey(),
-            "language": "pt-BR"
+            "api_key": apiConstants.apiKey,
+            "language": apiConstants.language
         ]
         
         // final url with the movie id, possible modifier and all the queries
         let url = movieURL.withQuery(queries)!
         
         return url
+    }
+    
+    // gathering API constants
+    struct apiConstants {
+        static let apiBaseURL = "https://api.themoviedb.org/3/movie/"
+        static let apiKey = GetAPIKey()
+        static let language = "pt-BR"
     }
 }
