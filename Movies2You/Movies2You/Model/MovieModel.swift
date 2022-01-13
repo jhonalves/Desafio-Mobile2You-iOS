@@ -76,7 +76,7 @@ struct Movie: Codable, Identifiable {
     }
 }
 
-struct Genre: Codable {
+struct Genre: Codable, Identifiable {
     var id: Int
     var name: String
     

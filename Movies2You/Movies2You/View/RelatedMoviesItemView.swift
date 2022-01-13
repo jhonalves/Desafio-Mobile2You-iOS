@@ -43,14 +43,23 @@ struct RelatedMoviesItemView: View {
                         Text(relatedMovie.title)
                         HStack {
                             Text(String(relatedMovie.releaseYear))
-                            Text(relatedMovie.genres[0].name)
+                            // shows first two genres
+                            if relatedMovie.genres.count == 1 {
+                                Text(relatedMovie.genres[0].name)
+                            } else if relatedMovie.genres.count > 1 {
+                                Text(relatedMovie.genres[0].name + ", " + relatedMovie.genres[1].name)
+                            }
                             Spacer()
                         }
                         .font(.caption)
                         Spacer()
                     }
                     .padding(.horizontal, 3)
-                    checkMarks
+                    VStack {
+                        checkMarks
+                            .padding(.top, 10)
+                        Spacer()
+                    }
                 }
                 .foregroundColor(.white)
                 // if its not the last item on the list adds a divider
@@ -67,18 +76,21 @@ struct RelatedMoviesItemView: View {
         Group {
             if relatedMovie.watched {
                 Image(systemName: "checkmark.circle.fill")
+                    .imageScale(.small)
                     .onTapGesture {
                         // sets both watched and added to false
                         movieViewModel.toggleWatched(relatedMovieID: relatedMovie.id)
                     }
             } else if relatedMovie.added {
                 Image(systemName: "plus.circle.fill")
+                    .imageScale(.small)
                     .onTapGesture {
                         // sets added to true
                         movieViewModel.toggleWatched(relatedMovieID: relatedMovie.id)
                     }
             } else {
                 Image(systemName: "circle")
+                    .imageScale(.small)
                     .onTapGesture {
                         // sets added to true
                         movieViewModel.toggleAdded(relatedMovieID: relatedMovie.id)
