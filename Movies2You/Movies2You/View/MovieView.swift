@@ -14,19 +14,19 @@ struct MovieView: View {
     var body: some View {
         ScrollView {
             if let movie = movieViewModel.movie {
-                MovieHeaderView(movie: movie)
-            }
-            // checks if there's a related movies list
-            if let relatedMoviesList = movieViewModel.movie?.relatedMovies {
-                VStack {
-                    // gets a RelatedMoviesItemView with each movie's info
-                    ForEach (relatedMoviesList) { relatedMovie in
-                        RelatedMoviesItemView(movieViewModel: movieViewModel,
-                                              relatedMovie: relatedMovie,
-                                              isLastItem: relatedMovie.id == relatedMoviesList.last?.id)
+                VStack(spacing: 0) {
+                    MovieHeaderImage(movie: movie)
+                    MovieHeaderInfo(movie: movie)
+                    VStack(spacing: 0) {
+                        // gets a RelatedMoviesItemView with each related movie's info
+                        ForEach (movie.relatedMovies) { relatedMovie in
+                            RelatedMoviesItemView(movieViewModel: movieViewModel,
+                                                  relatedMovie: relatedMovie,
+                                                  isLastItem: relatedMovie.id == movie.relatedMovies.last?.id)
+                        }
                     }
+                    .background(.black)
                 }
-                .background(.black)
             }
         }
         .background(.black)

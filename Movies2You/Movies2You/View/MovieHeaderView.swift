@@ -7,67 +7,73 @@
 
 import SwiftUI
 
-// creates a view with the main movie backdrop image, title, likes and views numbers
-struct MovieHeaderView: View {
+// creates a view with the main movie poster image
+struct MovieHeaderImage: View {
     var movie: Movie
     
     var body: some View {
-        VStack {
-            ZStack {
-                GeometryReader { geometry in
-                    // gets the image from the movie backdrop URL
-                    AsyncImage(url: URL(string: movie.backdropImageURL)) { phase in
-                        Group {
-                            if let image = phase.image {
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                                    .clipped()
-                                    .frame(width: geometry.size.width,
-                                           height: StretchyHeaderData.imageHeight(geometry))
-                                    .offset(x: 0, y: StretchyHeaderData.imageOffset(geometry))
-                            }
-                            // if there's a error it shows a black view item
-                            else if phase.error != nil {
-                                Color.black
-                            }
-                            // shows loading element while the image is downloaded
-                            else {
-                                ProgressView()
-                            }
+        ZStack {
+            GeometryReader { geometry in
+                // gets the image from the movie poster URL
+                AsyncImage(url: URL(string: movie.posterImageURL)) { phase in
+                    Group {
+                        if let image = phase.image {
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .clipped()
+                                .frame(width: geometry.size.width,
+                                       height: StretchyHeaderData.imageHeight(geometry))
+                                .offset(x: 0, y: StretchyHeaderData.imageOffset(geometry))
+                        }
+                        // if there's a error it shows a black view item
+                        else if phase.error != nil {
+                            Color.black
+                        }
+                        // shows loading element while the image is downloaded
+                        else {
+                            ProgressView()
                         }
                     }
                 }
             }
-            // sets the backdrop height to 30% of the screen height
-            .frame(height: UIScreen.main.bounds.height * 0.3)
-            // main movie's info
-            VStack(alignment: .leading) {
-                Text(movie.title)
-                    .bold()
-                    .font(.title)
+        }
+        // sets the backdrop height to 50% of the screen height
+        .frame(height: UIScreen.main.bounds.height * 0.5)
+    }
+}
+
+// creates a view with the main movie title, likes and views numbers
+struct MovieHeaderInfo: View {
+    var movie: Movie
+    
+    var body: some View {
+        // main movie's info
+        VStack(alignment: .leading) {
+            Text(movie.title)
+                .bold()
+                .font(.title)
+            Spacer()
+            HStack(alignment: .center) {
+                Text(String(movie.likes))
+                Text("Likes")
+                Text(String(movie.views))
+                Text("Views")
                 Spacer()
-                HStack(alignment: .center) {
-                    Text(String(movie.likes))
-                    Text("Likes")
-                    Text(String(movie.views))
-                    Text("Views")
-                    Spacer()
-                }
-                .font(.caption)
             }
-            .foregroundColor(.white)
-            .padding()
-            .background(.black)
-            // shade over the main movie's image
-            .overlay(alignment: .top) {
-                LinearGradient(gradient: Gradient(stops: [
-                        .init(color: .black, location: 0),
-                        .init(color: .clear, location: 1),
-                ]), startPoint: .bottom, endPoint: .top)
-                .frame(height: 100)
-                .offset(x: 0, y: -100)
-            }
+            .font(.caption)
+        }
+        .foregroundColor(.white)
+        .padding()
+        .background(.black)
+        // shade over the main movie's image
+        .overlay(alignment: .top) {
+            LinearGradient(gradient: Gradient(stops: [
+                    .init(color: .black, location: 0),
+                    .init(color: .clear, location: 1),
+            ]), startPoint: .bottom, endPoint: .top)
+            .frame(height: 100)
+            .offset(x: 0, y: -100)
         }
     }
 }
