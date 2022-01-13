@@ -20,7 +20,9 @@ class MovieAPI {
             let jsonDecoder = JSONDecoder()
             
             // try to decode de movie data into a Movie model
-            if let movieData = data, let movie = try? jsonDecoder.decode(Movie.self, from: movieData) {
+            if let movieData = data, var movie = try? jsonDecoder.decode(Movie.self, from: movieData) {
+                // fixing the view count that comes in a /1000 format
+                movie.views = movie.views * 1000
                 // returns Movie model if success
                 completion(movie)
             } else {

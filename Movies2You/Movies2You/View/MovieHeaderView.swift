@@ -55,10 +55,28 @@ struct MovieHeaderInfo: View {
                 .font(.title)
             Spacer()
             HStack(alignment: .center) {
-                Text(String(movie.likes))
-                Text("Likes")
-                Text(String(movie.views))
-                Text("Views")
+                HStack(spacing: 0) {
+                    Image(systemName: "heart.fill")
+                    Text(" ")
+                    if movie.likes < 1000 {
+                        // if the number is over 1000, formats it to show in 'thousands K' format
+                        Text(String(format: "%.1fK Likes", movie.likes / 1000)
+                                .replacingOccurrences(of: ".0", with: ""))  // if number ends in .0, removes the dot
+                    } else {
+                        Text(String(format: "%.0f Likes", movie.likes))
+                    }
+                }
+                Text("   ")
+                HStack(spacing: 0) {
+                    Image(systemName: "eye")
+                    Text(" ")
+                    if movie.views < 1000 {
+                        // if the number is over 1000, formats it to show in 'thousands K' format
+                        Text(String(format: "%.1fK Views", movie.views / 1000))
+                    } else {
+                        Text(String(format: "%.0f Views", movie.views))
+                    }
+                }
                 Spacer()
             }
             .font(.caption)
