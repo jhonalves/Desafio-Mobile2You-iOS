@@ -20,11 +20,13 @@ class MovieViewModel: ObservableObject {
     func getMovie(movieID: Int = MovieConstants.movieID) {
         self.movieAPI.fetchMovie(movieID: movieID) { (fetchedMovie) in
             DispatchQueue.main.async {
-                // saves fetched movie if success or nil if fails
-                self.movie = fetchedMovie
-                // if success, gets related movies
-                self.getRelatedMovies(movieID: movieID, modifier: MovieConstants.relatedMoviesModifier)
-                self.getRelatedMovies(movieID: movieID, modifier: MovieConstants.relatedMoviesModifier)
+                // checks if the movies has already been added
+                if self.movie?.id != fetchedMovie?.id {
+                    // saves fetched movie if success or nil if fails
+                    self.movie = fetchedMovie
+                    // if success, gets related movies
+                    self.getRelatedMovies(movieID: movieID, modifier: MovieConstants.relatedMoviesModifier)
+                }
             }
         }
     }
@@ -35,7 +37,7 @@ class MovieViewModel: ObservableObject {
             // if success appends to the movie variable
             DispatchQueue.main.async {
                 if let relatedMovie = fetchedRelatedMovie {
-                    // checks if the movies was already added to the relatedMovies list
+                    // checks if the movies has already been added to the relatedMovies list
                     if (self.movie?.relatedMovies.first { $0.id == relatedMovie.id } == nil) {
                         // adds the related movie to the list
                         self.movie?.relatedMovies.append(relatedMovie)
