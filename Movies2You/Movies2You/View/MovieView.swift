@@ -37,24 +37,30 @@ struct MovieHeaderView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            // gets the image from the movie backdrop URL
-            AsyncImage(url: URL(string: movie.backdropImageURL)) { phase in
-                Group {
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .scaledToFill()
+            ZStack {
+                // gets the image from the movie backdrop URL
+                AsyncImage(url: URL(string: movie.backdropImageURL)) { phase in
+                    Group {
+                        if let image = phase.image {
+                            image
+                                .resizable()
+                                .scaledToFill()
+                        }
+                        // if there's a error it shows a black view item
+                        else if phase.error != nil {
+                            Color.black
+                        }
+                        // shows loading element while the image is downloaded
+                        else {
+                            ProgressView()
+                        }
                     }
-                    // if there's a error it shows a black view item
-                    else if phase.error != nil {
-                        Color.black
-                    }
-                    // shows loading element while the image is downloaded
-                    else {
-                        ProgressView()
-                    }
+                    .frame(maxWidth: .greatestFiniteMagnitude, alignment: .center)
                 }
-                .frame(maxWidth: .greatestFiniteMagnitude, alignment: .center)
+                LinearGradient(gradient: Gradient(stops: [
+                        .init(color: .clear, location: 0.66),
+                        .init(color: .black, location: 1),
+                    ]), startPoint: .top, endPoint: .bottom)
             }
             Spacer()
             VStack(alignment: .leading) {
@@ -91,7 +97,7 @@ struct RelatedMoviesItemView: View {
                         image
                             .resizable()
                             .scaledToFit()
-                            .clipShape(Rectangle())
+                            .clipped()
                     }
                     // if there's a error it shows a black view item
                     else if phase.error != nil {
