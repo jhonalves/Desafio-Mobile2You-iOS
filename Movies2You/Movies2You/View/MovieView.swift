@@ -21,7 +21,7 @@ struct MovieView: View {
                 VStack {
                     // gets a RelatedMoviesItemView with each movie's info
                     ForEach (relatedMoviesList) { relatedMovie in
-                        RelatedMoviesItemView(relatedMovie: relatedMovie)
+                        RelatedMoviesItemView(movieViewModel: movieViewModel, relatedMovie: relatedMovie)
                     }
                 }
             }
@@ -79,6 +79,7 @@ struct MovieHeaderView: View {
 
 // gets a movie and creates a view with poster image, title, release year and genres
 struct RelatedMoviesItemView: View {
+    var movieViewModel: MovieViewModel
     var relatedMovie: Movie
     
     var body: some View {
@@ -103,26 +104,50 @@ struct RelatedMoviesItemView: View {
                 }
                 .frame(width: 60, height: 100, alignment: .center)
             }
-            VStack(alignment: .leading, spacing: 6) {
-                Text(relatedMovie.title)
-                HStack {
-                    Text(String(relatedMovie.releaseYear))
-                    Text(relatedMovie.genres[0].name)
+            HStack {
+                VStack(alignment: .leading, spacing: 6) {
+                    Spacer()
+                    Text(relatedMovie.title)
+                    HStack {
+                        Text(String(relatedMovie.releaseYear))
+                        Text(relatedMovie.genres[0].name)
+                        Spacer()
+                    }
+                    .font(.caption)
                     Spacer()
                 }
-                .font(.caption)
-                HStack {
-                    Spacer()
-                    Image(systemName: "checkmark.circle")
-                }
-                .font(.caption)
-                Spacer()
+                .padding(.horizontal, 3)
+                checkMarks
             }
             .foregroundColor(.white)
-            .padding(.horizontal, 6)
             Spacer()
         }
-        .padding(.horizontal)
+        .padding(.horizontal, 6)
+    }
+    
+    // set of check marks that are displayed conforming to each related movie data
+    var checkMarks: some View {
+        Group {
+            if relatedMovie.watched {
+                Image(systemName: "checkmark.circle.fill")
+                    .onTapGesture {
+                        // sets both watched and added to false
+                        movieViewModel.toggleWatched(relatedMovieID: relatedMovie.id)
+                    }
+            } else if relatedMovie.added {
+                Image(systemName: "plus.circle.fill")
+                    .onTapGesture {
+                        // sets added to true
+                        movieViewModel.toggleWatched(relatedMovieID: relatedMovie.id)
+                    }
+            } else {
+                Image(systemName: "circle")
+                    .onTapGesture {
+                        // sets added to true
+                        movieViewModel.toggleAdded(relatedMovieID: relatedMovie.id)
+                    }
+            }
+        }
     }
 }
 

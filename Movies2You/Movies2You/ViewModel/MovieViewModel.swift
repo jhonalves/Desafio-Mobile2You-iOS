@@ -62,6 +62,14 @@ class MovieViewModel: ObservableObject {
         }
     }
     
+    func toggleAdded(relatedMovieID: Int) {
+        movie?.toggleAdded(relatedMovieID: relatedMovieID)
+    }
+    
+    func toggleWatched(relatedMovieID: Int) {
+        movie?.toggleWatched(relatedMovieID: relatedMovieID)
+    }
+    
     // gathering ViewModel constants
     struct MovieConstants {
         // corresponds to the "Inception" movie
