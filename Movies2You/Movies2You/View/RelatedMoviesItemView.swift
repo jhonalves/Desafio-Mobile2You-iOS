@@ -11,6 +11,7 @@ import SwiftUI
 struct RelatedMoviesItemView: View {
     var movieViewModel: MovieViewModel
     var relatedMovie: Movie
+    var isLastItem: Bool
     
     var body: some View {
         HStack {
@@ -35,23 +36,28 @@ struct RelatedMoviesItemView: View {
                 .frame(width: 60, height: 100, alignment: .center)
             }
             // related movie info
-            HStack {
-                VStack(alignment: .leading, spacing: 6) {
-                    Spacer()
-                    Text(relatedMovie.title)
-                    HStack {
-                        Text(String(relatedMovie.releaseYear))
-                        Text(relatedMovie.genres[0].name)
+            VStack {
+                HStack {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Spacer()
+                        Text(relatedMovie.title)
+                        HStack {
+                            Text(String(relatedMovie.releaseYear))
+                            Text(relatedMovie.genres[0].name)
+                            Spacer()
+                        }
+                        .font(.caption)
                         Spacer()
                     }
-                    .font(.caption)
-                    Spacer()
+                    .padding(.horizontal, 3)
+                    checkMarks
                 }
-                .padding(.horizontal, 3)
-                checkMarks
+                .foregroundColor(.white)
+                // if its not the last item on the list adds a divider
+                if !isLastItem {
+                    Divider().background(.gray).opacity(0.4)
+                }
             }
-            .foregroundColor(.white)
-            Spacer()
         }
         .padding(.horizontal, 6)
     }

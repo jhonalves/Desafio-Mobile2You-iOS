@@ -21,7 +21,9 @@ struct MovieView: View {
                 VStack {
                     // gets a RelatedMoviesItemView with each movie's info
                     ForEach (relatedMoviesList) { relatedMovie in
-                        RelatedMoviesItemView(movieViewModel: movieViewModel, relatedMovie: relatedMovie)
+                        RelatedMoviesItemView(movieViewModel: movieViewModel,
+                                              relatedMovie: relatedMovie,
+                                              isLastItem: relatedMovie.id == relatedMoviesList.last?.id)
                     }
                 }
                 .background(.black)
