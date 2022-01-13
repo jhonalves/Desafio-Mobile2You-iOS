@@ -31,6 +31,7 @@
 		163440A3278DEAFB00BD2A12 /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
 		1693862427906D3E00881985 /* RelatedMoviesItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedMoviesItemView.swift; sourceTree = "<group>"; };
 		1693862627906D9F00881985 /* MovieHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieHeaderView.swift; sourceTree = "<group>"; };
+		1693862827906EAE00881985 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16CC7016278E0E6100B7E22E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		16CC7018278E0E7D00B7E22E /* GetAPIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAPIKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -65,6 +66,7 @@
 		1634408C278DE97200BD2A12 /* Movies2You */ = {
 			isa = PBXGroup;
 			children = (
+				1693862827906EAE00881985 /* Info.plist */,
 				1634409C278DEA1600BD2A12 /* Model */,
 				1634409D278DEA1B00BD2A12 /* ViewModel */,
 				1634409B278DEA0E00BD2A12 /* View */,
@@ -332,6 +334,7 @@
 				DEVELOPMENT_TEAM = J93F974236;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Movies2You/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -361,6 +364,7 @@
 				DEVELOPMENT_TEAM = J93F974236;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Movies2You/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
