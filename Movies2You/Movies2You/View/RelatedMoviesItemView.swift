@@ -97,5 +97,6 @@ struct RelatedMoviesItemView: View {
                     }
             }
         }
+        .padding(.trailing, 6)
     }
 }

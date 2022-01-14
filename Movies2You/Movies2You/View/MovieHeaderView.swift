@@ -76,7 +76,7 @@ struct MovieHeaderInfo: View {
                         if movie.likes > 1000 {
                             // if the number is over 1000, formats it to show in 'thousands K' format
                             Text(String(format: "%.1fK Likes", movie.likes / 1000)
-                                    .replacingOccurrences(of: ".0", with: ""))  // if number ends in .0, removes the dot
+                                .replacingOccurrences(of: ".0", with: ""))  // if number ends in .0, removes the dot
                         } else {
                             Text(String(format: "%.0f Likes", movie.likes))
                         }
@@ -87,7 +87,8 @@ struct MovieHeaderInfo: View {
                         Text(" ")
                         if movie.views > 1000 {
                             // if the number is over 1000, formats it to show in 'thousands K' format
-                            Text(String(format: "%.1fK Views", movie.views / 1000))
+                            Text(String(format: "%.1fK Views", movie.views / 1000)
+                                .replacingOccurrences(of: ".0", with: ""))  // if number ends in .0, removes the dot
                         } else {
                             Text(String(format: "%.0f Views", movie.views))
                         }

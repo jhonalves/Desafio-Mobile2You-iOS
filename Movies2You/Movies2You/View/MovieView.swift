@@ -25,6 +25,9 @@ struct MovieView: View {
                                 RelatedMoviesItemView(movieViewModel: movieViewModel,
                                                       relatedMovie: relatedMovie,
                                                       isLastItem: relatedMovie.id == movie.relatedMovies.last?.id)
+                                    .onTapGesture {
+                                        movieViewModel.getMovie(movieID: relatedMovie.id)
+                                    }
                             }
                         }
                         .background(.black)
