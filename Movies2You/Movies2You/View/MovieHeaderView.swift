@@ -58,6 +58,7 @@ struct MovieHeaderInfo: View {
             // main movie's info
             VStack(alignment: .leading) {
                 Text(movie.title)
+                    .fontWeight(.heavy)
                     .bold()
                     .font(.title)
                 Spacer()

@@ -41,6 +41,7 @@ struct RelatedMoviesItemView: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Spacer()
                         Text(relatedMovie.title)
+                            .fontWeight(.medium)
                         HStack {
                             Text(String(relatedMovie.releaseYear))
                             // shows first two genres
