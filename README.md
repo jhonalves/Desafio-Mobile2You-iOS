@@ -47,7 +47,7 @@ Abaixo, um gif com o funcionamento da aplicação.
 
 A aplicação apesar de simples, apresentou alguns desafios interessantes como o efeito "stretchy header" na imagem principal e a definição da Model a fim de consumir os dados da API de forma mais simples e então disponibilizá-los para a view e até mesmo a animação "flying heart" ao curtir o filme.
 
-Para o efeito "stretchy header" foi utilizada o `GeometryReader` para calcular o deslocamento da tela e adicionar esse deslocamento ao 'offset' da imagem e também à altura, fazendo ela esticar verticalmente.
+Para o efeito "stretchy header" foi utilizada o `GeometryReader` para calcular o deslocamento da tela e adicionar esse deslocamento ao 'offset' da imagem e também à altura, fazendo ela esticar verticalmente. Já para a animação ao curtir o filme foi utilizado o `matchedGeometryEffect` com um segundo icone de coração que alternava a opacidade entre 0 e 1 criando esse efeito.
 
 Já na implementação da Model uma decisão que facilitou bastante o desenvolvimento e consumo de dados da API foi lidar basicamente com a estrutura Movie, que era utilizada tanto para o filme principal, quanto para os filmes relacionados. Assim, todas informações necessárias estavam disponíveis, tanto para o filme principal quanto para os filmes relacionados. Isso resolveu o problema que era encontrado ao consumir o endpoint `getSimilarMovies`, pois os nomes dos gêneros não estavam disponíveis, apenas os IDs. Assim, não era necessário carregar uma lista com todos os gêneros disponíveis e então comparar o ID de cada gênero de cada filme relacionado à lista de gêneros, pois todos esses dados estavam na Model Movie.
 
