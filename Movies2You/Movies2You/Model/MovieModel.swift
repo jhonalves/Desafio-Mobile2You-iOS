@@ -8,31 +8,31 @@
 import Foundation
 
 struct Movie: Codable, Identifiable {
-    var id: Int
-    var title: String
-    var releaseDate: String
+    private(set) var id: Int
+    private(set) var title: String
+    private(set) var releaseDate: String
     var releaseYear: Int {
         // get the release year from the release date
         Int(releaseDate.split(separator: "-")[0]) ?? 0
     }
-    var genres: Array<Genre> = []
-    var likes: Double // vote_count
-    var views: Double // popularity
-    var backdropImagePath: String
+    private(set) var genres: Array<Genre> = []
+    private(set) var likes: Double // vote_count
+    private(set) var views: Double // popularity
+    private(set) var backdropImagePath: String
     var backdropImageURL: String {
         // turn the poster path into the proper image URL
         String("https://image.tmdb.org/t/p/w500" + self.backdropImagePath)
     }
-    var posterImagePath: String
+    private(set) var posterImagePath: String
     var posterImageURL: String {
         // turn the backdrop path into the proper image URL
         String("https://image.tmdb.org/t/p/w500" + self.posterImagePath)
     }
-    var relatedMovies: Array<Movie> = []
+    private(set) var relatedMovies: Array<Movie> = []
     
     // properties not related with the JSON income
-    var added = false
-    var watched = false
+    private(set) var added = false
+    private(set) var watched = false
     
     // bind API properties to Movie properties
     enum CodingKeys: String, CodingKey {
@@ -44,6 +44,16 @@ struct Movie: Codable, Identifiable {
         case views = "popularity"
         case backdropImagePath = "backdrop_path"
         case posterImagePath = "poster_path"
+    }
+    
+    mutating func fixViewCount(numberToUpdate: Double) {
+        let updatedNumber = numberToUpdate * 1000
+        
+        views = updatedNumber
+    }
+    
+    mutating func addRelatedMovie(newRelatedMovie: Movie) {
+        relatedMovies.append(newRelatedMovie)
     }
     
     // gets a related movie id and set its "added" properties to true
@@ -77,8 +87,8 @@ struct Movie: Codable, Identifiable {
 }
 
 struct Genre: Codable, Identifiable {
-    var id: Int
-    var name: String
+    private(set) var id: Int
+    private(set) var name: String
     
     // bind API properties to Genre properties
     enum CodingKeys: String, CodingKey {
@@ -88,7 +98,7 @@ struct Genre: Codable, Identifiable {
 }
 
 struct RelatedMovies: Codable {
-    var results: Array<RelatedMovie>
+    private(set) var results: Array<RelatedMovie>
     // turns the results array into a Int array with all the IDs
     var relatedMoviesIDs: Array<Int> {
         get {
@@ -107,6 +117,6 @@ struct RelatedMovies: Codable {
     
     // struct to store the "results" field data of the JSON
     struct RelatedMovie: Codable, Identifiable {
-        var id: Int
+        private(set) var id: Int
     }
 }

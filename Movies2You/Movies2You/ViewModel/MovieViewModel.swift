@@ -9,7 +9,7 @@ import SwiftUI
 
 class MovieViewModel: ObservableObject {
     @Published var movie: Movie?
-    var movieAPI = MovieAPI()
+    private var movieAPI = MovieAPI()
     
     init() {
         // gets the given movie when initializing tha ViewModel
@@ -32,7 +32,7 @@ class MovieViewModel: ObservableObject {
     }
     
     // takes related movie id and gets movie data, then appends it to the movie.relatedMovies array
-    func addRelatedMovie(movieID: Int) {
+    private func addRelatedMovie(movieID: Int) {
         self.movieAPI.fetchMovie(movieID: movieID) { (fetchedRelatedMovie) in
             // if success appends to the movie variable
             DispatchQueue.main.async {
@@ -40,7 +40,7 @@ class MovieViewModel: ObservableObject {
                     // checks if the movies has already been added to the relatedMovies list
                     if (self.movie?.relatedMovies.first { $0.id == relatedMovie.id } == nil) {
                         // adds the related movie to the list
-                        self.movie?.relatedMovies.append(relatedMovie)
+                        self.movie?.addRelatedMovie(newRelatedMovie: relatedMovie)
                     }
                 }
             }
@@ -48,7 +48,7 @@ class MovieViewModel: ObservableObject {
     }
     
     // gets related movies ids array
-    func getRelatedMovies(movieID: Int, modifier: String) {
+    private func getRelatedMovies(movieID: Int, modifier: String) {
         self.movieAPI.fetchRelatedMovies(movieID: movieID, modifier: modifier) { (fetchedRelatedMovies) in
             DispatchQueue.main.async {
                 if let list = fetchedRelatedMovies?.relatedMoviesIDs {
@@ -71,7 +71,7 @@ class MovieViewModel: ObservableObject {
     }
     
     // gathering ViewModel constants
-    struct MovieConstants {
+    private struct MovieConstants {
         // corresponds to the "Inception" movie
         static let movieID = 27205
         // corresponds to the "Get Similar Movies" function in the TMDB API

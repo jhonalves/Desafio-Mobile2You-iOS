@@ -22,7 +22,7 @@ class MovieAPI {
             // try to decode de movie data into a Movie model
             if let movieData = data, var movie = try? jsonDecoder.decode(Movie.self, from: movieData) {
                 // fixing the view count that comes in a /1000 format
-                movie.views = movie.views * 1000
+                movie.fixViewCount(numberToUpdate: movie.views)
                 // returns Movie model if success
                 completion(movie)
             } else {
@@ -58,7 +58,7 @@ class MovieAPI {
     // modifier will be added after the movie id
     // it must be nil if there's no modifier
     // or "/modifier" if there's one
-    func formatURL(movieID: Int, modifier: String? = nil) -> URL {
+    private func formatURL(movieID: Int, modifier: String? = nil) -> URL {
         // base API request url
         let baseURL = apiConstants.apiBaseURL
         
@@ -86,7 +86,7 @@ class MovieAPI {
     }
     
     // gathering API constants
-    struct apiConstants {
+    private struct apiConstants {
         static let apiBaseURL = "https://api.themoviedb.org/3/movie/"
         static let apiKey = GetAPIKey()
         static let language = "pt-BR"
