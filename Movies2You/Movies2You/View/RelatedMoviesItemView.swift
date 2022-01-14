@@ -42,6 +42,7 @@ struct RelatedMoviesItemView: View {
                         Spacer()
                         Text(relatedMovie.title)
                             .fontWeight(.medium)
+                            .multilineTextAlignment(.leading)
                         HStack {
                             Text(String(relatedMovie.releaseYear))
                             // shows first two genres
@@ -75,26 +76,26 @@ struct RelatedMoviesItemView: View {
     // set of check marks that are displayed conforming to each related movie data
     var checkMarks: some View {
         Group {
-            if relatedMovie.watched {
+            if relatedMovie.isWatched {
                 Image(systemName: "checkmark.circle.fill")
                     .imageScale(.small)
                     .onTapGesture {
                         // sets both watched and added to false
-                        movieViewModel.toggleWatched(relatedMovieID: relatedMovie.id)
+                        movieViewModel.toggleIsWatched(relatedMovieID: relatedMovie.id)
                     }
-            } else if relatedMovie.added {
+            } else if relatedMovie.isAdded {
                 Image(systemName: "plus.circle.fill")
                     .imageScale(.small)
                     .onTapGesture {
                         // sets added to true
-                        movieViewModel.toggleWatched(relatedMovieID: relatedMovie.id)
+                        movieViewModel.toggleIsWatched(relatedMovieID: relatedMovie.id)
                     }
             } else {
                 Image(systemName: "circle")
                     .imageScale(.small)
                     .onTapGesture {
                         // sets added to true
-                        movieViewModel.toggleAdded(relatedMovieID: relatedMovie.id)
+                        movieViewModel.toggleIsAdded(relatedMovieID: relatedMovie.id)
                     }
             }
         }

@@ -31,8 +31,23 @@ struct Movie: Codable, Identifiable {
     private(set) var relatedMovies: Array<Movie> = []
     
     // properties not related with the JSON income
-    private(set) var added = false
-    private(set) var watched = false
+    private(set) var isLiked = false
+    private(set) var isAdded = false
+    private(set) var isWatched = false
+    // is true when all related movies "isAdded" is true
+    var allRelatedAdded: Bool {
+        get {
+            var allAdded = true
+            
+            for relatedMovie in relatedMovies {
+                // if one of the movies' isAdded is false, then allAdded will be returned as false
+                if !relatedMovie.isAdded {
+                    allAdded = relatedMovie.isAdded
+                }
+            }
+            return allAdded
+        }
+    }
     
     // bind API properties to Movie properties
     enum CodingKeys: String, CodingKey {
@@ -56,32 +71,43 @@ struct Movie: Codable, Identifiable {
         relatedMovies.append(newRelatedMovie)
     }
     
-    // gets a related movie id and set its "added" properties to true
-    mutating func toggleAdded(relatedMovieID: Int) {
+    mutating func toggleIsLiked() {
+        isLiked.toggle()
+    }
+    
+    // gets a related movie id and set its "isAdded" properties to true
+    mutating func toggleIsAdded(relatedMovieID: Int) {
         // gets the related movie index
-        if let addedMovieIndex = relatedMovies.firstIndex(where: { $0.id == relatedMovieID }) {
-            // if not added
-            if !relatedMovies[addedMovieIndex].added {
-                relatedMovies[addedMovieIndex].added.toggle()
+        if let isAddedMovieIndex = relatedMovies.firstIndex(where: { $0.id == relatedMovieID }) {
+            // if not isAdded
+            if !relatedMovies[isAddedMovieIndex].isAdded {
+                relatedMovies[isAddedMovieIndex].isAdded.toggle()
             } else {
                 return
             }
         }
     }
     
-    // gets a related movie id and toggles the "watched" property
-    mutating func toggleWatched(relatedMovieID: Int) {
+    // gets a related movie id and toggles the "isWatched" property
+    mutating func toggleIsWatched(relatedMovieID: Int) {
         // gets the related movie index
-        if let watchedMovieIndex = relatedMovies.firstIndex(where: { $0.id == relatedMovieID }) {
-            // if not watched
-            if !relatedMovies[watchedMovieIndex].watched {
-                relatedMovies[watchedMovieIndex].watched.toggle()
-            // if watched
+        if let isWatchedMovieIndex = relatedMovies.firstIndex(where: { $0.id == relatedMovieID }) {
+            // if not isWatched
+            if !relatedMovies[isWatchedMovieIndex].isWatched {
+                relatedMovies[isWatchedMovieIndex].isWatched.toggle()
+            // if isWatched
             } else {
-                relatedMovies[watchedMovieIndex].watched.toggle()
-                // also sets added to false
-                if relatedMovies[watchedMovieIndex].added { relatedMovies[watchedMovieIndex].added.toggle() }
+                relatedMovies[isWatchedMovieIndex].isWatched.toggle()
+                // also sets isAdded to false
+                if relatedMovies[isWatchedMovieIndex].isAdded { relatedMovies[isWatchedMovieIndex].isAdded.toggle() }
             }
+        }
+    }
+    
+    mutating func toggleAllToAdded(relatedMovieID: Int) {
+        // gets the related movie index
+        if let isAddedMovieIndex = relatedMovies.firstIndex(where: { $0.id == relatedMovieID }) {
+            relatedMovies[isAddedMovieIndex].isAdded = true
         }
     }
 }

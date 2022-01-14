@@ -45,6 +45,7 @@ struct MovieHeaderImage: View {
 
 // creates a view with the main movie title, likes and views numbers
 struct MovieHeaderInfo: View {
+    var movieModelView: MovieViewModel
     var movie: Movie
     // variable to toggle the heart icon in the interface
     @State var isLiked: Bool = false
@@ -67,7 +68,7 @@ struct MovieHeaderInfo: View {
                         ZStack {
                             Image(systemName: "heart.fill")
                             // secondary like icon to help the flying heart animation
-                            if isLiked {
+                            if movie.isLiked {
                                 Image(systemName: "heart.fill")
                                     .transition(AnyTransition.identity)
                                     .matchedGeometryEffect(id: 1, in: heartNamespace)
@@ -79,7 +80,12 @@ struct MovieHeaderInfo: View {
                             Text(String(format: "%.1fK Likes", movie.likes / 1000)
                                 .replacingOccurrences(of: ".0", with: ""))  // if number ends in .0, removes the dot
                         } else {
-                            Text(String(format: "%.0f Likes", movie.likes))
+                            if movie.isLiked {
+                                // if liked, adds 1 to the like count (view only, doesn't reflects in the model)
+                                Text(String(format: "%.0f Likes", movie.likes + 1))
+                            } else {
+                                Text(String(format: "%.0f Likes", movie.likes))
+                            }
                         }
                     }
                     .padding(.trailing, 16)
@@ -102,7 +108,7 @@ struct MovieHeaderInfo: View {
             VStack {
                 // like button just for visual purposes, doesn't reflects on the model
                 ZStack {
-                    if !isLiked {
+                    if !movie.isLiked {
                         // shows empty heart if not liked
                         Image(systemName: "heart").imageScale(.large)
                             .transition(AnyTransition.scale)
@@ -119,7 +125,7 @@ struct MovieHeaderInfo: View {
                 }
                 .onTapGesture {
                     withAnimation(.easeInOut) {
-                        isLiked.toggle()
+                        movieModelView.toggleIsLiked()
                     }
                 }
                 Spacer()

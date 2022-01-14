@@ -62,12 +62,20 @@ class MovieViewModel: ObservableObject {
         }
     }
     
-    func toggleAdded(relatedMovieID: Int) {
-        movie?.toggleAdded(relatedMovieID: relatedMovieID)
+    func toggleIsLiked() {
+        movie?.toggleIsLiked()
     }
     
-    func toggleWatched(relatedMovieID: Int) {
-        movie?.toggleWatched(relatedMovieID: relatedMovieID)
+    func toggleIsAdded(relatedMovieID: Int) {
+        movie?.toggleIsAdded(relatedMovieID: relatedMovieID)
+    }
+    
+    func toggleIsWatched(relatedMovieID: Int) {
+        movie?.toggleIsWatched(relatedMovieID: relatedMovieID)
+    }
+    
+    func toggleAllToAdded(relatedMovieID: Int) {
+        movie?.toggleAllToAdded(relatedMovieID: relatedMovieID)
     }
     
     // gathering ViewModel constants
