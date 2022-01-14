@@ -69,9 +69,7 @@ struct MovieView: View {
     var bottomButtons: some View {
         VStack{
             Button {
-                withAnimation() {
-                    movieViewModel.toggleIsLiked()
-                }
+                movieViewModel.toggleIsLiked()
             } label: {
                 // if the main movie is liked
                 if let isLiked = movieViewModel.movie?.isLiked, isLiked == true {
