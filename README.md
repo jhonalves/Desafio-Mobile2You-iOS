@@ -29,6 +29,18 @@ possível.
 - [x] Botões "❤️ Curtir" e "Adicionar às Minhas Listas"
 - [ ] Diferenciar a cor do texto com base na cor da imagem principal
 
+## API Key
+  
+Por motivos de segurança, o arquivo com a API Key não foi adicionado ao repositório. Para rodar o projeto você vai precisar criar uma função da seguinte forma:
+  
+```swift
+func GetAPIKey() -> String {
+    "SUA-API-KEY"
+}
+```
+
+Eu criei essa função em um arquivo na pasta `Helpers`, mas você pode colocar onde achar mais conveniente, desde que possa ser acessada pelo arquivo `MovieAPI.swift`.
+
 ## Demonstração da aplicação
 
 A aplicação tem um filme principal onde é mostrada a imagem de capa, o título, a quantidade de likes e view, além de um botão para curtir o filme.
