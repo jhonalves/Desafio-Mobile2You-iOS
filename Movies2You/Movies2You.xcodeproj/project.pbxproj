@@ -16,6 +16,7 @@
 		163440A4278DEAFB00BD2A12 /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163440A3278DEAFB00BD2A12 /* MovieViewModel.swift */; };
 		1693862527906D3E00881985 /* RelatedMoviesItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1693862427906D3E00881985 /* RelatedMoviesItemView.swift */; };
 		1693862727906D9F00881985 /* MovieHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1693862627906D9F00881985 /* MovieHeaderView.swift */; };
+		16BC035327963AEE00BC5760 /* ColorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 16BC035227963AEE00BC5760 /* ColorKit */; };
 		16CC7017278E0E6100B7E22E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CC7016278E0E6100B7E22E /* Extensions.swift */; };
 		16CC7019278E0E7D00B7E22E /* GetAPIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CC7018278E0E7D00B7E22E /* GetAPIKey.swift */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16BC035327963AEE00BC5760 /* ColorKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +140,9 @@
 			dependencies = (
 			);
 			name = Movies2You;
+			packageProductDependencies = (
+				16BC035227963AEE00BC5760 /* ColorKit */,
+			);
 			productName = Movies2You;
 			productReference = 1634408A278DE97200BD2A12 /* Movies2You.app */;
 			productType = "com.apple.product-type.application";
@@ -166,6 +171,9 @@
 				Base,
 			);
 			mainGroup = 16344081278DE97200BD2A12;
+			packageReferences = (
+				16BC035127963AEE00BC5760 /* XCRemoteSwiftPackageReference "ColorKit" */,
+			);
 			productRefGroup = 1634408B278DE97200BD2A12 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -411,6 +419,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		16BC035127963AEE00BC5760 /* XCRemoteSwiftPackageReference "ColorKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Boris-Em/ColorKit.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		16BC035227963AEE00BC5760 /* ColorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 16BC035127963AEE00BC5760 /* XCRemoteSwiftPackageReference "ColorKit" */;
+			productName = ColorKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 16344082278DE97200BD2A12 /* Project object */;
 }

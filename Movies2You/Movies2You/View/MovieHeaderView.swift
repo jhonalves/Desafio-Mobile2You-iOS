@@ -47,6 +47,8 @@ struct MovieHeaderImage: View {
 struct MovieHeaderInfo: View {
     var movieModelView: MovieViewModel
     var movie: Movie
+    var primaryColor: Color
+    var secondaryColor: Color
     // variable to toggle the heart icon in the interface
     @State var isLiked: Bool = false
     // heartOpacity to help the flying heart animation
@@ -59,6 +61,7 @@ struct MovieHeaderInfo: View {
             // main movie's info
             VStack(alignment: .leading) {
                 Text(movie.title)
+                    .foregroundColor(primaryColor)
                     .fontWeight(.heavy)
                     .bold()
                     .font(.title)
@@ -102,6 +105,7 @@ struct MovieHeaderInfo: View {
                     }
                     Spacer()
                 }
+                .foregroundColor(secondaryColor)
                 .font(.caption)
             }
             Spacer()
@@ -123,6 +127,7 @@ struct MovieHeaderInfo: View {
                         .opacity(heartOpacity)
                         .matchedGeometryEffect(id: 1, in: heartNamespace)
                 }
+                .foregroundColor(primaryColor)
                 .onTapGesture {
                     withAnimation(.easeInOut) {
                         movieModelView.toggleIsLiked()

@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import ColorKit
 
 // main view
 struct MovieView: View {
     @ObservedObject var movieViewModel = MovieViewModel()
+    @State var mainColor = Color.white
+    @State var secondaryColor = Color.white
     
     var body: some View {
         ZStack {
@@ -18,21 +21,32 @@ struct MovieView: View {
                 if let movie = movieViewModel.movie {
                     VStack(spacing: 0) {
                         MovieHeaderImage(movie: movie)
-                        MovieHeaderInfo(movieModelView: movieViewModel, movie: movie)
+                        MovieHeaderInfo(movieModelView: movieViewModel,
+                                        movie: movie,
+                                        primaryColor: mainColor,
+                                        secondaryColor: secondaryColor)
                         VStack(spacing: 0) {
                             // gets a RelatedMoviesItemView with each related movie's info
                             ForEach (movie.relatedMovies) { relatedMovie in
                                 Button {
                                     movieViewModel.getMovie(movieID: relatedMovie.id)
+                                    // get main and secondary colors based on the new movie's poster
+                                    setColors(urlPath: relatedMovie.posterImageURL)
                                 } label : {
                                     RelatedMoviesItemView(movieViewModel: movieViewModel,
                                                           relatedMovie: relatedMovie,
+                                                          primaryColor: mainColor,
+                                                          secondaryColor: secondaryColor,
                                                           isLastItem: relatedMovie.id == movie.relatedMovies.last?.id)
                                 }
                             }
                         }
                         .padding(.bottom, 30)
                         .background(.black)
+                        .onAppear {
+                            // get main and secondary colors based on the main image poster
+                            setColors(urlPath: movie.posterImageURL)
+                        }
                         bottomButtons
                             .padding(.bottom, 30)
                     }
@@ -82,7 +96,7 @@ struct MovieView: View {
                     }
                     .padding()
                     .foregroundColor(.black)
-                    .background(.white)
+                    .background(mainColor)
                     .cornerRadius(6)
                 }
                 // else, shows button to like the movie
@@ -119,7 +133,7 @@ struct MovieView: View {
                     }
                     .padding()
                     .foregroundColor(.black)
-                    .background(.white)
+                    .background(mainColor)
                     .cornerRadius(6)
                 }
                 // else, shows button to add all related movies
@@ -138,7 +152,33 @@ struct MovieView: View {
             }
             .padding(10)
         }
-        .foregroundColor(.white)
+        .foregroundColor(mainColor)
+    }
+    
+    func setColors(urlPath: String) {
+        // gets the url based on the path to the image
+        let url = URL(string: urlPath)!
+        var image: UIImage? = nil
+
+        // Fetch image data
+        if let data = try? Data(contentsOf: url) {
+            // Create UIImage
+            image = UIImage(data: data)!
+        }
+        
+        do {
+            // get the dominant colors array
+            let dominant = try image!.dominantColors()
+            // sets a palette based on the dominant colors
+            let palette = ColorPalette(orderedColors: dominant, ignoreContrastRatio: true)
+            
+            let primary = palette?.primary ?? UIColor.white
+            let secondary = palette?.secondary ?? UIColor.white
+            mainColor = Color(uiColor: primary)
+            secondaryColor = Color(uiColor: secondary)
+        } catch {
+            fatalError(error.localizedDescription)
+        }
     }
 }
 

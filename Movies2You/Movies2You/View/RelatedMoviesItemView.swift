@@ -11,6 +11,8 @@ import SwiftUI
 struct RelatedMoviesItemView: View {
     var movieViewModel: MovieViewModel
     var relatedMovie: Movie
+    var primaryColor: Color
+    var secondaryColor: Color
     var isLastItem: Bool
     
     var body: some View {
@@ -41,16 +43,21 @@ struct RelatedMoviesItemView: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Spacer()
                         Text(relatedMovie.title)
+                            .foregroundColor(primaryColor)
                             .fontWeight(.medium)
                             .multilineTextAlignment(.leading)
                         HStack {
                             Text(String(relatedMovie.releaseYear))
+                                .foregroundColor(primaryColor)
                             // shows first two genres
-                            if relatedMovie.genres.count == 1 {
-                                Text(relatedMovie.genres[0].name)
-                            } else if relatedMovie.genres.count > 1 {
-                                Text(relatedMovie.genres[0].name + ", " + relatedMovie.genres[1].name)
+                            Group {
+                                if relatedMovie.genres.count == 1 {
+                                    Text(relatedMovie.genres[0].name)
+                                } else if relatedMovie.genres.count > 1 {
+                                    Text(relatedMovie.genres[0].name + ", " + relatedMovie.genres[1].name)
+                                }
                             }
+                            .foregroundColor(secondaryColor)
                             Spacer()
                         }
                         .font(.caption)
@@ -59,6 +66,7 @@ struct RelatedMoviesItemView: View {
                     .padding(.horizontal, 3)
                     VStack {
                         checkMarks
+                            .foregroundColor(secondaryColor)
                             .padding(.top, 10)
                         Spacer()
                     }
