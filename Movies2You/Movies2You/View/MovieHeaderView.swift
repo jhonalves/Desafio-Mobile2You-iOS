@@ -49,6 +49,7 @@ struct MovieHeaderInfo: View {
     var movie: Movie
     var primaryColor: Color
     var secondaryColor: Color
+    var backgroundColor: Color
     // variable to toggle the heart icon in the interface
     @State var isLiked: Bool = false
     // heartOpacity to help the flying heart animation
@@ -138,11 +139,11 @@ struct MovieHeaderInfo: View {
         }
         .foregroundColor(.white)
         .padding()
-        .background(.black)
+        .background(backgroundColor)
         // shade over the main movie's image
         .overlay(alignment: .top) {
             LinearGradient(gradient: Gradient(stops: [
-                    .init(color: .black, location: 0),
+                    .init(color: backgroundColor, location: 0),
                     .init(color: .clear, location: 1),
             ]), startPoint: .bottom, endPoint: .top)
             .frame(height: 100)

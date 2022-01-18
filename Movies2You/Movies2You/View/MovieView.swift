@@ -13,6 +13,7 @@ struct MovieView: View {
     @ObservedObject var movieViewModel = MovieViewModel()
     @State var mainColor = Color.white
     @State var secondaryColor = Color.white
+    @State var backgroundColor = Color.white
     
     var body: some View {
         ZStack {
@@ -24,7 +25,8 @@ struct MovieView: View {
                         MovieHeaderInfo(movieModelView: movieViewModel,
                                         movie: movie,
                                         primaryColor: mainColor,
-                                        secondaryColor: secondaryColor)
+                                        secondaryColor: secondaryColor,
+                                        backgroundColor: backgroundColor)
                         VStack(spacing: 0) {
                             // gets a RelatedMoviesItemView with each related movie's info
                             ForEach (movie.relatedMovies) { relatedMovie in
@@ -42,7 +44,7 @@ struct MovieView: View {
                             }
                         }
                         .padding(.bottom, 30)
-                        .background(.black)
+                        .background(backgroundColor)
                         .onAppear {
                             // get main and secondary colors based on the main image poster
                             setColors(urlPath: movie.posterImageURL)
@@ -53,7 +55,7 @@ struct MovieView: View {
                 }
             }
             .zIndex(1)
-            .background(.black)
+            .background(backgroundColor)
             .ignoresSafeArea()
         }
     }
@@ -95,7 +97,7 @@ struct MovieView: View {
                         Spacer()
                     }
                     .padding()
-                    .foregroundColor(.black)
+                    .foregroundColor(backgroundColor)
                     .background(mainColor)
                     .cornerRadius(6)
                 }
@@ -128,11 +130,11 @@ struct MovieView: View {
                     HStack {
                         Spacer()
                         Text("Added to My Lists")
-                            .foregroundColor(.black)
+                            .foregroundColor(backgroundColor)
                         Spacer()
                     }
                     .padding()
-                    .foregroundColor(.black)
+                    .foregroundColor(backgroundColor)
                     .background(mainColor)
                     .cornerRadius(6)
                 }
@@ -174,8 +176,14 @@ struct MovieView: View {
             
             let primary = palette?.primary ?? UIColor.white
             let secondary = palette?.secondary ?? UIColor.white
+            let background = palette?.background ?? UIColor.white
+            
             mainColor = Color(uiColor: primary)
-            secondaryColor = Color(uiColor: secondary)
+            // uses the secondary color as background for better contrast
+            backgroundColor = Color(uiColor: secondary)
+            // uses the background color as secondary for better contrast
+            secondaryColor = Color(uiColor: background)
+            
         } catch {
             fatalError(error.localizedDescription)
         }
