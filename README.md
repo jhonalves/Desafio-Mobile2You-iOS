@@ -27,7 +27,7 @@ possível.
 - [x] Botão de like para o filme principal com animação
 - [x] Lista com os filmes relacionados
 - [x] Botões "❤️ Curtir" e "Adicionar às Minhas Listas"
-- [ ] Diferenciar a cor do texto com base na cor da imagem principal
+- [ ] Diferenciar a cor do texto com base na cor da imagem principal  —  parcialmente implementada na branch `dev`
 
 ## API Key
   
@@ -64,4 +64,10 @@ Para o efeito "stretchy header" foi utilizada o `GeometryReader` para calcular o
 Já na implementação da Model uma decisão que facilitou bastante o desenvolvimento e consumo de dados da API foi lidar basicamente com a estrutura Movie, que era utilizada tanto para o filme principal, quanto para os filmes relacionados. Assim, todas informações necessárias estavam disponíveis, tanto para o filme principal quanto para os filmes relacionados. Isso resolveu o problema que era encontrado ao consumir o endpoint `getSimilarMovies`, pois os nomes dos gêneros não estavam disponíveis, apenas os IDs. Assim, não era necessário carregar uma lista com todos os gêneros disponíveis e então comparar o ID de cada gênero de cada filme relacionado à lista de gêneros, pois todos esses dados estavam na Model Movie.
 
 Outro desafio foi implementar as cores de destaque no texto da aplicação, utilizando como base as cores da imagem principal. Até o momento essa função não foi implementada pois as soluções tentadas não ficaram muito elegantes, em uma delas era feita a conversão de Image para UIImage com o objetivo de utilizar a biblioteca externa `ColorKit` que oferece uma paleta com cores primárias, secundárias e de fundo com base em uma imagem. O resultado visualmente ficou bem legal, porém o código ficou bem poluído e foi decidido não implementar dessa forma. Por isso, essa função ficou como uma tarefa para o futuro. 
-
+  
+### Update - 17/01 22h
+A função de implementar as cores de destaque foi parcialmente implementada na branch `dev`.
+  
+A implementação foi feita mais a título de curiosidade para ver como ficaria o resultado visualmente, então foi utilizada uma função diretamente na View que faz o download da UIImagem, analisa sua paleta de cores e a utiliza nos textos e no fundo de tela da aplicação (não foi utilizado o fundo preto pois em alguns filmes a legibilidade ficava ruim).
+  
+O resultado ficou bem bonito visualmente, mas principalmente devido a cor do fundo de tela variando de acordo com a imagem principal (em vez de permanecer na cor preta) talvez a interface esteja fugindo um pouco da tela do app TodoMovies4. Por esse motivo o desenvolvimento dessa feature ficou apenas nisso por enquanto.
